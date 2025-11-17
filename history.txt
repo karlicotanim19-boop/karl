@@ -1,0 +1,74 @@
+ 1  cd karl
+    2  history.txt
+    3  https://github.com/karlicotanim19-boop/karl.git
+    4  git clone https://github.com/karlicotanim19-boop/karl.git
+    5  history
+    6  cd karl
+    7  mkdir karl
+    8  touch
+    9  touch test.txt
+   10  readme.md
+   11  " readme.md
+
+touch readme.md
+
+
+   12  touch.md
+   13  touch readme.md
+   14  rm test.txt
+   15  start readme.md
+   16  rm test.txt
+   17  git config --global user.name
+   18  git config --global user.icotanim
+   19  cd  ..
+   20  ls
+   21  mkdir icotanim
+   22  touch test.txt
+   23  cd icotanim
+   24  mkdir icotanim
+   25  git config --global.name "icotanim"
+   26  git config --global.name "karlicotanim"
+   27  git config --global.name "karl"
+   28  git config --global.name "karlicotanim19"
+   29  git config --global user.name "karlicotanim19"
+   30  git config --global user.email "karlicotanim19@gmail.com"
+   31  git status
+   32  git config --global user.name
+   33  git config --global user.email
+   34  git init
+   35  ls -al
+   36  cd .git
+   37  ls
+   38  cd ..
+   39  git status
+   40  git add .
+   41  git satus
+   42  git status
+   43  git commit -m "first commit"
+   44  git branch -M main
+   45  git remote add origin https://github.com/karlicotanim19-boop/karl.git~
+   46  git push -u origin main
+   47  git remote add origin https://github.com/karlicotanim19-boop/karl.git
+   48  git push -u origin main
+   49  cd..
+   50  cd ..
+   51  cd karl
+   52  git status
+   53  git add .
+   54  git status
+   55  git config --global user.name
+   56  git config --global user.email
+   57  git remote add origin https://github.com/karlicotanim19-boop/karl.git
+   58  git push -u origin main
+   59  git remote add origin https://github.com/karlicotanim19-boop/karl.git
+   60  git push -u origin main
+   61  git init
+   62  git add README.md
+   63  git commit -m "first commit"
+   64  git add .
+   65  git status
+   66  git commit -m "first commit"
+   67  git branch -M main
+   68  git remote add origin https://github.com/karlicotanim19-boop/karl.git
+   69  git push -u origin main
+   70  history
