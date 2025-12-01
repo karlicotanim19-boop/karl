@@ -3,10 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Smartwatch</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .watch-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+        }
+
+        .watch-body {
+            width: 100%;
+            height: 100%;
+            background: #1a1a1a;
+            border-radius: 50%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+                        inset 0 0 20px rgba(255,255,255,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .watch-screen {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 250px;
+            height: 250px;
+            background: #000;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+        }
+
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .screen-content.active {
+            display: flex;
+        }
+
+        .time-display {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .date-display {
+            font-size: 16px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        .nav-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot.active {
+            background: #fff;
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        .heart-rate-screen {
+            text-align: center;
+        }
+
+        .heart-icon {
+            font-size: 60px;
+            color: #ff4757;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+        }
+
+        .bpm {
+            font-size: 56px;
+            font-weight: 700;
+            color: #fff;
+            margin: 10px 0;
+        }
+
+        .bpm-label {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .activity-screen {
+            width: 100%;
+        }
+
+        .activity-title {
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .progress-ring {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .ring-bg {
+            fill: none;
+            stroke: rgba(255,255,255,0.1);
+            stroke-width: 12;
+        }
+
+        .ring-progress {
+            fill: none;
+            stroke: #4cd964;
+            stroke-width: 12;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.5s;
+        }
+
+        .ring-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .button {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .weather-screen {
+            text-align: center;
+        }
+
+        .weather-icon {
+            font-size: 70px;
+            margin-bottom: 10px;
+        }
+
+        .temp {
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .weather-desc {
+            font-size: 16px;
+            color: #888;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1> welcome to my karl pogi </h1>
-    <p> karl lawrencsaedsadsadase wqeqwewqeqweqwejicotanim </p>
+    <div class="watch-container">
+        <div class="watch-body">
+            <div class="watch-screen">
+                <!-- Home Screen -->
+                <div class="screen-content active" id="screen-0">
+                    <div class="time-display" id="time">12:00</div>
+                    <div class="date-display" id="date">Monday, Dec 1</div>
+                    <div class="stat-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">👟</div>
+                            <div class="stat-value" id="steps">0</div>
+                            <div class="stat-label">Steps</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">❤️</div>
+                            <div class="stat-value" id="heart">72</div>
+                            <div class="stat-label">BPM</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🔥</div>
+                            <div class="stat-value" id="calories">245</div>
+                            <div class="stat-label">Calories</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🔋</div>
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Battery</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heart Rate Screen -->
+                <div class="screen-content heart-rate-screen" id="screen-1">
+                    <div class="heart-icon">❤️</div>
+                    <div class="bpm" id="bpm-display">72</div>
+                    <div class="bpm-label">Beats Per Minute</div>
+                </div>
+
+                <!-- Activity Screen -->
+                <div class="screen-content activity-screen" id="screen-2">
+                    <div class="activity-title">Daily Goal</div>
+                    <div class="progress-ring">
+                        <svg width="120" height="120">
+                            <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+                            <circle class="ring-progress" cx="60" cy="60" r="52" 
+                                    stroke-dasharray="326.73" 
+                                    stroke-dashoffset="196.04" id="progress-circle"></circle>
+                        </svg>
+                        <div class="ring-text" id="goal-percent">40%</div>
+                    </div>
+                    <button class="button" onclick="addSteps()">Start Workout</button>
+                </div>
+
+                <!-- Weather Screen -->
+                <div class="screen-content weather-screen" id="screen-3">
+                    <div class="weather-icon">☀️</div>
+                    <div class="temp">28°C</div>
+                    <div class="weather-desc">Partly Cloudy</div>
+                    <div class="date-display" style="margin-top: 15px;">Paranaque City</div>
+                </div>
+
+                <div class="nav-dots">
+                    <div class="nav-dot active" onclick="switchScreen(0)"></div>
+                    <div class="nav-dot" onclick="switchScreen(1)"></div>
+                    <div class="nav-dot" onclick="switchScreen(2)"></div>
+                    <div class="nav-dot" onclick="switchScreen(3)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentScreen = 0;
+        let steps = 0;
+        let heartRate = 72;
+        let calories = 245;
+        const dailyGoal = 10000;
+
+        function switchScreen(index) {
+            document.querySelectorAll('.screen-content').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-dot').forEach(d => d.classList.remove('active'));
+            
+            document.getElementById(`screen-${index}`).classList.add('active');
+            document.querySelectorAll('.nav-dot')[index].classList.add('active');
+            currentScreen = index;
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('time').textContent = `${hours}:${minutes}`;
+
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const dateStr = `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+            document.getElementById('date').textContent = dateStr;
+        }
+
+        function updateHeartRate() {
+            heartRate = 68 + Math.floor(Math.random() * 12);
+            document.getElementById('heart').textContent = heartRate;
+            document.getElementById('bpm-display').textContent = heartRate;
+        }
+
+        function addSteps() {
+            const increment = Math.floor(Math.random() * 500) + 200;
+            steps = Math.min(steps + increment, dailyGoal);
+            calories += Math.floor(increment * 0.04);
+            
+            document.getElementById('steps').textContent = steps.toLocaleString();
+            document.getElementById('calories').textContent = calories;
+            
+            const percent = Math.floor((steps / dailyGoal) * 100);
+            document.getElementById('goal-percent').textContent = `${percent}%`;
+            
+            const circumference = 326.73;
+            const offset = circumference - (circumference * steps / dailyGoal);
+            document.getElementById('progress-circle').style.strokeDashoffset = offset;
+        }
+
+        updateTime();
+        setInterval(updateTime, 1000);
+        setInterval(updateHeartRate, 3000);
+
+        document.querySelector('.watch-screen').addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-dot') && !e.target.closest('.button')) {
+                switchScreen((currentScreen + 1) % 4);
+            }
+        });
+    </script>
 </body>
 </html>
